@@ -1,6 +1,0 @@
-{
-    "java.project.sourcePaths": ["precors"],
-    "java.project.referencedLibraries": [
-        "precors/lib/*.jar"
-    ]
-}
