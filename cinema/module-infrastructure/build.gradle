@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':module-application')
+	implementation project(':module-domain')
+	implementation project(':module-common')
+	
+}

@@ -1,29 +1,47 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.6'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.5.6' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
 }
 
 group = 'com.hanghae'
 version = '0.0.1-SNAPSHOT'
 description = 'Demo project for Spring Boot'
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+// 모든 프로젝트에 공통 설정 적용
+allprojects {
+	group = 'com.hanghae'
+	version = '0.0.1-SNAPSHOT'
+	
+	repositories {
+		mavenCentral()
 	}
 }
 
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
+// 모든 서브프로젝트에 공통 설정 적용
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+	
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(21)
+		}
+	}
+	
+	dependencies {
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	}
+	
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
+	
+	// Spring Boot Dependency Management 설정
+	dependencyManagement {
+		imports {
+			mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+		}
+	}
 }
